@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>VTry</title>
+  <meta name="author" content="Yongtong Hu, VTry.net, 2015">
+  <meta name="description" content="VTry.net eye glasses virtual try on">
+  <link rel="stylesheet" type="text/css" href="css/vtry.css">
+  <link rel="icon" 
+      type="image/png" 
+      href="img/glasses.png">
+</head>
+<body>
+  <div id="viewCam" class="mainView">
+    <div id="divCamera"></div>
+    <div id="divCamButton">
+      <button id="btnCancelCam">Cancel</button>
+      <button id="btnSnapshot">
+      <img src="img/camera1.png">
+      Take Snapshot</button>
+    </div>
+  </div>
+
+  <div id="viewDetect" class="mainView">
+      <canvas id="canvasFaceSource" width="500" height="500" style="visibility: visible; position:absolute;left:0px;top:0px;"></canvas>
+    <div id="divDetectLoader">
+      Processing ...
+    </div>
+  </div>
+  <div id="viewCalibrate" class="mainView" style="margin-top:0px; margin-left:0px">
+      <img id="imgFace" src="#" alt="face image"/>
+      <div id="divVersion"></div>
+      <div class="pan"></div>
+      <div class="viewMeter"></div>
+  </div>
+  <a id="btnFinish" src="#"><img src="img/ok.png"></a>
+  <div id="viewTryOn" class="mainView">
+    <div id="divTryOnContainer">
+      <img id='imgTryOnBackground' class="tryonFadeIn">
+      <canvas id="canvasTryOnWebGl" width="1" height="1" style="position:absolute; -webkit-transform:translateZ(-1000px);"></canvas>
+
+     <canvas id="canvasVertices" width="1" height="1" style="position:absolute"></canvas>
+     <div id="divWipeBG"></div>
+     <div id="divWipeJaw"></div>
+     <div id="divWipeForehead"></div>
+
+      <div id="divTryOnLeft" class="divTryOn">
+      </div>
+      <div id="divTryOnRight" class="divTryOn">
+      </div>
+
+      <div id="divGlasses" style="position:absolute; display:none;">
+        <img src="#" id='imgLeftLeg' style="display: none; position:absolute; top: 0px; right: 0px">
+        <img src="#" id='imgGlasses' style="display: none; position:absolute; top: 0px; left: 0px">
+        <img src="#" id='imgRightLeg' style="display: none; position:absolute; top: 0px; left: 512px">
+      </div>
+    </div>
+    <div id="divThumbContainer" class="divTryOnControl">
+    </div>
+    <div id="divTopRightAction" class="divTryOnControl">
+        <input type='file' id="inputImg" style="display:none" />
+        <a id="btnGetImage" href="#">
+          <img src="img/camera1.png">
+        </a>
+        <a id="btnDesktopCam" href="#">
+          <img src="img/camera1.png">
+        </a>
+        <a id="btnDesktopImgFile" href="#">
+          <img src="img/file.png">
+        </a>
+    </div>
+    <div id="divTopLeftAction" class="divTryOnControl">
+        <div class="divTopLeftBlock">
+          <a id="btnDefaultProfile" class="btnProfile" href="#">
+          </a>
+        </div>
+        <div class="divTopLeftBlock">
+          <a id="btnUserProfile" class="btnProfile" href="#">
+            <img id="imgCalibration" src="img/calibration.png">
+            <img id="imgUserThumb" src="#">
+          </a>
+        </div>
+    </div>
+
+    <a id="logoText" href="http://vtry.net">VTRY.NET</a>
+    <button id="btnReturn" onclick="window.history.back(); window.close()">RETURN</button>
+  </div>
+    <div class="divLoader">
+      Loading ...
+    </div>
+    <script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="lib/vtry3.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/utils.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/mobile-detect.min.js"></script>
+       <script type="text/javascript" src="webcam.min.js"></script>
+      <script type="text/javascript" src="lib/objectdetect.js"></script>
+    <script type="text/javascript" src="lib/objectdetect.frontalface.js"></script>
+    <script type="text/javascript" src="lib/objectdetect.eye.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/svmfilter_webgl.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/mossefilter.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/config.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/log.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/clmtrackr-face-deformer.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/viewState.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/clmFaceModelForehead.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/default-model.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/glassesModel.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/faceModel.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/faceModelFactory.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/integrationCtrl.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/profile.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/loadSource.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/detect.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/calibrate.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/glasses.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/faceAnimation.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/morpher.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/faceAnimationLegacy.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/faceAnimationInterface.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/tryon.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/main.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/demoCtrl.js"></script>
+    <script type="text/javascript" src="SOURCE-CODE/test.js"></script>
+</body>
+</html>

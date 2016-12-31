@@ -1,0 +1,331 @@
+body {
+	margin: 0px;
+	background-color: #333333;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#logoText {
+	position:fixed;
+    margin-left: calc(50% - 50px);
+    margin-top: 0px;
+    padding: 3px 0px;
+    width: 100px;
+    text-align: center;
+    color: #cccccc;
+    z-index: 1000;
+    border: 1px solid #666666;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    background-color: #333333;
+    text-decoration: none;
+}
+#btnReturn {
+	position:fixed;
+	bottom: 24px;
+    margin-left: calc(50% - 100px);
+    margin-top: 0px;
+    padding: 3px 0px;
+    width: 200px;
+    text-align: center;
+    color: #cccccc;
+    font-size: 1.5em;
+    z-index: 1000;
+    border: 2px solid #666666;
+    border-radius: 8px;
+    background-color: #333333;
+    text-decoration: none;
+    display:none;
+}
+.mainView {
+	position:absolute;
+	width: 100%;
+	height: 100%;
+	display:none;
+	/*border: 2px dashed #ff9900;*/
+}
+
+#divTopRightAction {
+	position:fixed;
+	top: 0px;
+	right: 0px;
+	width: 60px;
+	text-align: right;
+	padding-right: 3px;
+	display: none;
+}
+
+#divTopLeftAction {
+    position: fixed;
+    top: 4px;
+    left: 4px;
+    width: 60px;
+}
+
+.divTopLeftBlock {
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+    margin-top: 0px;
+    margin-bottom: 4px;
+    border-radius: 8px;
+}
+
+#viewDetect {
+	background-color: #333333;
+}
+#divTryOnContainer, .fixed {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
+}
+
+.divTryOn {
+	position: absolute;
+	display: none;
+}
+.divTryOnControl {
+	transition: opacity 0.3s ease-in-out;
+}
+.tryOnImg {
+	/*transition: opacity 2.0s ease-in-out;*/
+}
+#imgTryOnBackground {
+	/*display:none;*/
+	position:absolute;
+	opacity: 1;
+	border-radius: 8px;
+}
+
+.imgCached {
+	position:absolute;
+	opacity: 1;
+}
+
+#divTopRightAction img {
+	max-width: 48px;
+	max-height: 48px;
+	opacity: 1;
+	/*display:none;*/
+}
+
+.btnProfile {
+
+}
+
+.btnProfile img {
+    max-width: 48px;
+    opacity: 1;
+    -webkit-filter: grayscale(1);
+    margin-top:-6px;
+    filter: grayscale(1);
+}
+
+#imgCalibration {
+	margin-top: 0px;
+	opacity: 0.6;
+}
+
+.modelname {
+/*	flex-shrink: 0;
+	max-width: 100%;
+	max-height: 100%;
+	width: 100px;
+	height: 50px;
+	margin: 0px 6px;
+	vertical-align:middle;*/
+	position:absolute;
+	/*margin: 2px;*/
+	visibility: hidden;
+	top:0px;
+	bottom: 60px;
+	height:20px;
+	font-size:14px;
+	overflow: hidden;
+	z-index: 2;
+}
+.modelnameselect {
+	visibility: visible;
+}
+#divThumbContainer {
+	visibility: hidden;
+	position:fixed;
+	/*width: 100%;*/
+	
+	width: 24000px;
+	left: 0px;
+	height: 80px;
+	bottom: 0px;
+	margin: 0,auto;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	background-color: rgba(255, 255, 255, 0.5);
+	
+/*	display: -webkit-flex;
+	-webkit-flex-direction: row;
+	-webkit-flex-wrap: nowrap;
+	-webkit-align-items: center;*/
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+}
+
+.imgThumb {
+	/*float:left;*/
+	/*position:relative;*/
+	overflow-x: hidden;
+	position: relative;
+	flex-shrink: 0;
+/*	-webkit-flex-shrink: 0;*/
+	max-width: 100%;
+	max-height: 100%;
+	width: 100px;
+	height: 50px;
+	margin: 0px 6px;
+	z-index: 1;
+}
+.imgThumbSelect {
+    /*border: 1px solid;*/
+    margin: 4px;
+    padding: 4px;
+    background-color: yellow;
+
+    /*border-radius: 4px;*/
+}
+
+#divDetectLoader {
+    position: fixed;
+    top: 400px;
+    /* bottom: 48px; */
+    background-color: #333333;
+    color: #ffffff;
+    border-radius: 4px;
+    /*margin: 10px 28%;*/
+    /*margin-left:auto;*/
+    /*margin-right:auto;*/
+    width: 100px;
+    padding: 4px 12px;
+    text-align: center;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+}
+.divLoader {
+	position: fixed;
+    background-color: #333333;
+    color: #ffffff;
+    border-radius: 4px;
+    margin: 10px 40%;
+    margin-top: 100px;
+    width: 100px;
+    padding: 4px 12px;
+    text-align: center;		
+}
+#divWipeBG {
+	background-color: #f0f0f0;
+	position: absolute;
+	width: 320px;
+	height: 540px;
+	z-index: 0;	
+	opacity: 0;
+	 -webkit-transform:translateZ(-1000px);
+}
+#divWipeJaw {
+	background: linear-gradient(rgba(128, 128, 128, 0), rgba(128, 128, 128, 0.98) 20px);
+	position: absolute;
+	top: 260px;
+	width: 320px;
+	height: 540px;
+	z-index: 0;	
+	opacity: 0;
+	 -webkit-transform:translateZ(-1000px);
+}
+#divWipeForehead {
+	background: linear-gradient(rgba(128, 128, 128, 0.98), rgba(128, 128, 128, 0) 20px);
+	position: absolute;
+	top: 0px;
+	width: 320px;
+	height: 100px;	
+	opacity: 0;
+	 -webkit-transform:translateZ(-1000px);
+}
+.pan {
+	position: absolute;
+	overflow: hidden;
+	background-repeat: no-repeat;
+	background-color: #444;
+	background-attachment: local;
+	z-index: 10;
+	display: none;
+}
+path, circle {
+	fill: none;
+	stroke: #00D0FF;
+	stroke-width: 4;
+	shape-rendering: crispEdges;
+}
+svg, .viewMeter {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 8;
+}
+
+#btnFinish {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	border: 4px solid #cccccc;
+	border-radius: 8px;
+	background-color: #333333;
+	padding: 0px 12px;
+	display: none;
+	z-index: 20;
+}
+
+#divCamera {
+	width: 640px;
+	height: 480px;
+	margin:auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border-radius: 4px;
+	border: 1px dashed #666;
+}
+#divCamButton {
+	margin:auto;
+	width: 640px;
+	text-align: center;
+}
+
+#divCamButton button {
+	background-color: #cccccc;
+	font-size: 2em;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+    margin-left: 36px;	
+}
+
+#divCamButton button img {
+	max-width: 36px;
+	max-height: 36px;
+    float: left;
+    margin-right: 8px;
+}
+
+#divVersion {
+    position: fixed;
+    background-color: #333;
+    top: 0px;
+    left: 0px;
+    color: #999999;
+    padding: 2px 4px;
+    border-bottom-right-radius: 4px;
+    z-index: 100;
+}
+#divThumbSwaper{ left:-4000px;}
+.og_prev{ width:104px; height:100px; background:url(../img/l.png) no-repeat; /*background:url(../img/icon.png) no-repeat\9;*/ position:absolute; bottom:75px; z-index:99; cursor:pointer;filter:alpha(opacity=70); opacity:0.7;}
+.og_next{ width:104px; height:100px; background:url(../img/r.png) no-repeat; /*background:url(../img/icon.png) no-repeat\9;*/ position:absolute; bottom:75px; z-index:99; cursor:pointer;filter:alpha(opacity=70); opacity:0.7;}
+.og_prev{ background-position:0 0; left:4px;}
+.og_next{ background-position:0 0; right:4px;}

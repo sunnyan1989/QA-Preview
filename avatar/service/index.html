@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>VTry</title>
+  <meta name="author" content="Yongtong Hu, VTry.net, 2015">
+  <meta name="description" content="VTry.net eye glasses virtual try on">
+  <link rel="stylesheet" type="text/css" href="css/vtry.css">
+  <link rel="icon" 
+      type="image/png" 
+      href="img/glasses.png">
+</head>
+<body>
+  <div id="viewCam" class="mainView">
+    <div id="divCamera"></div>
+    <div id="divCamButton">
+      <button id="btnCancelCam">Cancel</button>
+      <button id="btnSnapshot">
+      <img src="img/camera1.png">
+      Take Snapshot</button>
+    </div>
+  </div>
+  <div id="viewDetect" class="mainView">
+      <canvas id="canvasFaceSource" width="500" height="500" style="visibility: visible; position:absolute;left:0px;top:0px;"></canvas>
+    <div id="divDetectLoader">
+      Processing ...
+    </div>
+  </div>
+  <div id="viewCalibrate" class="mainView" style="margin-top:0px; margin-left:0px">
+      <img id="imgFace" src="#" alt="face image"/>
+      <div id="divVersion"></div>
+      <div class="pan"></div>
+      <div class="viewMeter"></div>
+  </div>
+  <a id="btnFinish" src="#"><img src="img/ok.png"></a>
+  <div id="viewTryOn" class="mainView">
+    <div id="divTryOnContainer">
+      <img id='imgTryOnBackground' class="tryonFadeIn">
+      <canvas id="canvasTryOnWebGl" width="1" height="1" style="position:absolute; -webkit-transform:translateZ(-1000px);"></canvas>
+
+     <canvas id="canvasVertices" width="1" height="1" style="position:absolute"></canvas>
+     <div id="divWipeBG"></div>
+     <div id="divWipeJaw"></div>
+     <div id="divWipeForehead"></div>
+      <div id="divGlasses" style="position:absolute; display:none;">
+        <img src="#" id='imgLeftLeg' style="display: none; position:absolute; top: 0px; right: 0px">
+        <img src="#" id='imgGlasses' style="display: none; position:absolute; top: 0px; left: 0px">
+        <img src="#" id='imgRightLeg' style="display: none; position:absolute; top: 0px; left: 512px">
+      </div>
+    </div>
+    <div id="divThumbContainer" class="divTryOnControl">
+
+    </div>
+    <div id="divThumbSwaper" >
+    </div>
+    <div id="divTopRightAction" class="divTryOnControl">
+        <input type='file' id="inputImg" style="display:none" />
+        <a id="btnGetImage" href="#">
+          <img src="img/camera1.png">
+        </a>
+        <a id="btnDesktopCam" href="#">
+          <img src="img/camera1.png">
+        </a>
+        <a id="btnDesktopImgFile" href="#">
+          <img src="img/file.png">
+        </a>
+    </div>
+    <div id="divTopLeftAction" class="divTryOnControl">
+        <div class="divTopLeftBlock">
+          <a id="btnDefaultProfile" class="btnProfile" href="#">
+          </a>
+        </div>
+        <div class="divTopLeftBlock">
+          <a id="btnUserProfile" class="btnProfile" href="#">
+            <img id="imgCalibration" src="img/calibration.png">
+            <img id="imgUserThumb" src="#">
+          </a>
+        </div>
+    </div>
+
+    <a id="logoText" href="http://vtry.net">VTRY.NET</a>
+    <button id="btnReturn" onclick="window.history.back(); window.close()">RETURN</button>
+    <!-- <div class="btns"><a href="javascript:void(0)" class="up"></a><a href="javascript:void(0)" class="down"></a></div>
+  </div> -->
+    <div class="divLoader">
+      Loading ...
+    </div>
+  <div class="og_prev"></div>
+  <div class="og_next"></div>
+
+
+
+    <script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="lib/vtry3.js"></script>
+    <script type="text/javascript" src="webcam.min.js"></script>
+    <!-- <script type="text/javascript" src="vtry.min.js"></script> -->
+    
+    <script type="text/javascript" src="readable_vtry.js"></script>
+    <script type="text/javascript">
+$(document).ready(function(e) {
+  /***不需要自动滚动，去掉即可***/
+  // time = window.setInterval(function(){
+  //   $('.og_next').click();  
+  // },5000);
+  /***不需要自动滚动，去掉即可***/
+  linum = $('#divThumbContainer .imgThumb').length;//图片数量
+  // w = linum * 200;//ul宽度
+  w = 40000;//ul宽度
+  //$('#divThumbContainer').css('width', w + 'px');//ul宽度
+  $('#divThumbSwaper').html($('#divThumbContainer').html());//复制内容
+  
+  $('.og_next').click(function(){
+    
+    if($('#divThumbSwaper,#divThumbContainer').is(':animated')){
+      $('#divThumbSwaper,#divThumbContainer').stop(true,true);
+    }
+    
+    if($('#divThumbContainer .imgThumb').length>10){//多于4张图片
+      ml = parseInt($('#divThumbContainer').css('left'));//默认图片ul位置
+      sl = parseInt($('#divThumbSwaper').css('left'));//交换图片ul位置
+      if(ml<=0 && ml>w*-1){//默认图片显示时
+        $('#divThumbSwaper').css({left: '1000px'});//交换图片放在显示区域右侧
+        $('#divThumbContainer').animate({left: ml - 1000 + 'px'},'slow');//默认图片滚动        
+        if(ml==(w-4000)*-1){//默认图片最后一屏时
+          $('#divThumbSwaper').animate({left: '0px'},'slow');//交换图片滚动
+        }
+      }else{//交换图片显示时
+        $('#divThumbContainer').css({left: '1000px'})//默认图片放在显示区域右
+        $('#divThumbSwaper').animate({left: sl - 1000 + 'px'},'slow');//交换图片滚动
+        if(sl==(w-4000)*-1){//交换图片最后一屏时
+          $('#divThumbContainer').animate({left: '0px'},'slow');//默认图片滚动
+        }
+      }
+    }
+  })
+  $('.og_prev').click(function(){
+    
+    if($('#divThumbSwaper,#divThumbContainer').is(':animated')){
+      $('#divThumbSwaper,#divThumbContainer').stop(true,true);
+    }
+    
+    if($('#divThumbContainer .imgThumb').length>10){
+      ml = parseInt($('#divThumbContainer').css('left'));
+      sl = parseInt($('#divThumbSwaper').css('left'));
+      if(ml<=0 && ml>w*-1){
+        $('#divThumbSwaper').css({left: w * -1 + 'px'});
+        $('#divThumbContainer').animate({left: ml + 1000 + 'px'},'slow');
+        if(ml==0){
+          $('#divThumbSwaper').animate({left: (w - 4000) * -1 + 'px'},'slow');
+        }
+      }else{
+        $('#divThumbContainer').css({left: (w - 1000) * -1 + 'px'});
+        $('#divThumbSwaper').animate({left: sl + 1000 + 'px'},'slow');
+        if(sl==0){
+          $('#divThumbContainer').animate({left: '0px'},'slow');
+        }
+      }
+    }
+  })    
+});
+
+$(document).ready(function(){
+  $('.og_prev,.og_next').hover(function(){
+      $(this).fadeTo('fast',1);
+    },function(){
+      $(this).fadeTo('fast',0.7);
+  })
+
+})
+
+    </script>
+</body>
+</html>
